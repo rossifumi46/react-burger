@@ -13,22 +13,21 @@
   align-items: center;
 }
 
-.ingredients {
-  max-width: 608px;
-  max-height: 800px;
+.list {
+  max-height: 600px;
   overflow-y: scroll;
   scrollbar-width: thin;
 }
 
-.ingredients::-webkit-scrollbar-track {
+.list::-webkit-scrollbar-track {
   background-color: #2F2F37;
 }
 
-.ingredients::-webkit-scrollbar {
+.list::-webkit-scrollbar {
   width: 8px;
 }
 
-.ingredients::-webkit-scrollbar-thumb {
+.list::-webkit-scrollbar-thumb {
   border: none;
   background: #8585AD;
 }
@@ -47,6 +46,5 @@
 }
 
 .tabs {
-  width: 100%;
   display: flex;
 }

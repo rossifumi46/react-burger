@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { grid, ingredients, info, image, tabs, card } from './styles.module.css';
+import { grid, info, image, tabs, card, list } from './styles.module.css';
 
 const BurgerIngredients = ({ data }) => {
   const [current, setCurrent] = React.useState('one')
 
   return (
-    <section className={`${ingredients}`}>
+    <section>
       <h2 className={`text text_type_main-large`}>Соберите бургер</h2>
       <div className={`${tabs}`}>
         <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -20,7 +20,7 @@ const BurgerIngredients = ({ data }) => {
           Научинки
         </Tab>
       </div>
-      <div>
+      <div className={`${list}`}>
         <h3 className="text text_type_main-medium mt-10">Булки</h3>
         <div className={`${grid} mt-6 ml-4 mr-4`}>
           {data.filter(item => item.type === 'bun').map(bun => (
