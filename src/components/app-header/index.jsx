@@ -7,17 +7,17 @@ const AppHeader = () => {
         <div className={button_container}>
           <button className={`p-5 ${button} `}>
             <BurgerIcon type="primary" />
-            <span className="text text_type_main-default ml-2">Булки</span>
+            <span className="text text_type_main-default ml-2">Конструктор</span>
           </button>
           <button className={`p-5 ml-2 ${button}`}>
             <ListIcon type="secondary" />
-            <span className={`text text_type_main-default ml-2 ${secondary}`}>Соусы</span>
+            <span className={`text text_type_main-default ml-2 ${secondary}`}>Лента заказов</span>
           </button>
         </div>
         <Logo />
         <button className={`p-5 ${button}`}>
           <ProfileIcon type="secondary" />
-          <span className={`text text_type_main-default ml-2 ${secondary}`}>Начинки</span>
+          <span className={`text text_type_main-default ml-2 ${secondary}`}>Личный кабинет</span>
         </button>
     </header>
   )

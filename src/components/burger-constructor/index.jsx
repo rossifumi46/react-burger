@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructor, item, sum } from './styles.module.css';
+import { dataPropTypes } from '../types';
 
 const BurgerConstructor = ({ data }) => {
   const [current, setCurrent] = React.useState('one')
@@ -43,13 +44,6 @@ const BurgerConstructor = ({ data }) => {
     </section>
   )
 }
-
-const dataPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.string.number,
-});
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
