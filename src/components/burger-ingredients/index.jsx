@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { grid, info, image, tabs, card, list, ingredients } from './styles.module.css';
-import { dataPropTypes } from '../types';
+import { ingredientPropTypes } from '../types';
+import IngredientDetails from '../ingredient-details';
 
 const BurgerIngredients = ({ data }) => {
-  const [current, setCurrent] = React.useState('one')
+  const [current, setCurrent] = React.useState(null);
+
+  const [isOpen, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+  const handleOpen = (data)=> {
+    setCurrent(data);
+    setOpen(true);
+  };
 
   return (
     <section className={`${ingredients}`}>
@@ -25,7 +34,7 @@ const BurgerIngredients = ({ data }) => {
         <h3 className="text text_type_main-medium mt-10">Булки</h3>
         <div className={`${grid} mt-6 ml-4 mr-4`}>
           {data.filter(item => item.type === 'bun').map(item => (
-            <div className={`${card}`} key={item._id}>
+            <div className={`${card}`} key={item._id} id={item._id} onClick={() => handleOpen(item)}>
               <img alt="ingredient" src={item.image} className={`${image} ml-4`}/>
               <span className={`mt-1 ${info} text text_type_digits-default`}>{item.price} <CurrencyIcon type="primary" /></span>
               <span className={`mt-1 ${info} text text_type_main-default`}>{item.name}</span>
@@ -35,7 +44,7 @@ const BurgerIngredients = ({ data }) => {
         <h3 className="text text_type_main-medium mt-10">Соусы</h3>
         <div className={`${grid} mt-6 ml-4 mr-4`}>
           {data.filter(item => item.type === 'sauce').map(item => (
-            <div className={`${card}`} key={item._id}>
+            <div className={`${card}`} key={item._id} onClick={() => handleOpen(item)}>
               <img alt="ingredient" src={item.image} className={`${image} ml-4`}/>
               <span className={`mt-1 ${info} text text_type_digits-default`}>{item.price} <CurrencyIcon type="primary" /></span>
               <span className={`mt-1 ${info} text text_type_main-default`}>{item.name}</span>
@@ -45,7 +54,7 @@ const BurgerIngredients = ({ data }) => {
         <h3 className="text text_type_main-medium mt-10">Начинка</h3>
         <div className={`${grid} mt-6 ml-4 mr-4`}>
           {data.filter(item => item.type === 'main').map(item => (
-            <div className={`${card}`} key={item._id}>
+            <div className={`${card}`} key={item._id} onClick={() => handleOpen(item)}>
               <img alt="ingredient" src={item.image} className={`${image} ml-4`}/>
               <span className={`mt-1 ${info} text text_type_digits-default`}>{item.price} <CurrencyIcon type="primary" /></span>
               <span className={`mt-1 ${info} text text_type_main-default`}>{item.name}</span>
@@ -53,6 +62,7 @@ const BurgerIngredients = ({ data }) => {
           ))}
         </div>
       </div>
+      {current && <IngredientDetails ingredient={current} isOpen={isOpen} onClose={handleClose}/>}
     </section>
   )
 }
@@ -60,7 +70,7 @@ const BurgerIngredients = ({ data }) => {
 
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 }
 
 export default BurgerIngredients;

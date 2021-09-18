@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.structure {
+  display: flex;
+  text-align: center;
+}
+
+.structure span {
+  display: block;
+}
+
+.img {
+  width: 520px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

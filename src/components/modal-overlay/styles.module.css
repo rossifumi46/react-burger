@@ -1,0 +1,19 @@
+.modal_overlay {
+  position: fixed; 
+  transition: visibility 0.5s, opacity 0.5s linear;
+  background: #00000080;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.is_open {
+  visibility: visible;
+  opacity: 1;
+}

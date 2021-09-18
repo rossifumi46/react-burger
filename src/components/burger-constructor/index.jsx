@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { constructor, item, sum } from './styles.module.css';
-import { dataPropTypes } from '../types';
+import { ingredientPropTypes } from '../types';
+import OrderDetails from '../order-details';
 
 const BurgerConstructor = ({ data }) => {
-  const [current, setCurrent] = React.useState('one')
+  const [isOpen, setOpen] = useState(false);
 
+  const handleClose = () => setOpen(false);
+  const handleOpen = (data)=> setOpen(true);
   return (
     <section className={`${constructor} pt-25 pl-4`}>
       <div className={`${item}`}>
@@ -39,14 +42,15 @@ const BurgerConstructor = ({ data }) => {
       </div>
       <div className={`${sum} mt-10`}>
         <span className={`text text_type_digits-medium mr-10`}>610 <CurrencyIcon /></span>
-        <Button type="primary" size="large">Оформить заказ</Button>
+        <Button onClick={handleOpen} type="primary" size="large">Оформить заказ</Button>
       </div>
+      <OrderDetails isOpen={isOpen} onClose={handleClose} />
     </section>
   )
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(dataPropTypes.isRequired).isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 }
 
 export default BurgerConstructor;
