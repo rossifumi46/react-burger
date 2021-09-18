@@ -1,0 +1,25 @@
+.constructor {
+  
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.sum {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.sum svg {
+  width: 36px;
+  height: auto;
+  margin-left: 8px;
+}
+
+.sum span {
+  display: inline-flex;
+  align-items: center;
+}

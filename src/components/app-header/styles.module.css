@@ -1,0 +1,26 @@
+.button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.button_container {
+  display: flex;
+}
+
+.button span {
+  color: #FFF;
+}
+
+.secondary {
+  color: #8585AD !important;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+}

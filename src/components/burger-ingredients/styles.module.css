@@ -1,0 +1,54 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+  row-gap: 32px;
+}
+
+.card {
+  max-width: 272px;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list {
+  max-height: 600px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  border: none;
+  background: #8585AD;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info svg {
+  margin-left: 8px;
+}
+
+.image {
+  display: block;
+}
+
+.tabs {
+  display: flex;
+}
+
+.ingredients {
+  max-width: 600px;
+}
