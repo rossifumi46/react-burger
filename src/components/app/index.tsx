@@ -11,17 +11,20 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    (async function() {
+    async function getData() {
       try {
         const response = await fetch(URL);
         if (response.ok) {
           const { data } = await response.json();
           setData(data);
+        } else {
+          throw new Error(response.status + ': ' + response.statusText);
         }
       } catch (error) {
         console.log(error);
       }
-    })();
+    };
+    getData();
   }, [])
 
   return (

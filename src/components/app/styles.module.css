@@ -3,3 +3,9 @@
   margin: 0 auto;
   display: flex;
 }
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

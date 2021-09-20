@@ -1,13 +1,10 @@
-import PropTypes from 'prop-types';
 import { container, structure, title, img } from "./styles.module.css";
-import Modal from "../modal";
 import { ingredientPropTypes } from '../types';
 
-function IngredientDetails({ ingredient, isOpen, onClose }) {
+function IngredientDetails({ ingredient }) {
   const { name, image, calories, proteins, fat, carbohydrates } = ingredient;
 
   return (
-    <Modal header="Детали ингредиента" isOpen={isOpen} onClose={onClose}>
       <div className={`${container} pb-15`}>
         <div className={img}>
           <img src={image} alt="ingredient" />
@@ -42,14 +39,11 @@ function IngredientDetails({ ingredient, isOpen, onClose }) {
           </div>
         </div>
       </div>
-    </Modal>
   );
 }
 
 IngredientDetails.propTypes = {
   ingredient: ingredientPropTypes.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
 }
 
 export default IngredientDetails;
