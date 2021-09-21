@@ -18,18 +18,17 @@ const BurgerConstructor = ({ data }) => {
   const handleOpen = () => setOpen(true);
   return (
     <section className={`${constructor} pt-25 pl-4`}>
+      <div className={`${item} ml-6 mb-4`}>
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text={data[0].name}
+          price={data[0].price}
+          thumbnail={data[0].image}
+        />
+      </div>
       <div className={list}>
         <div className={`${item}`}>
-          <DragIcon className="mr-2" />
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={data[0].name}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
-        </div>
-        <div className={`${item} mt-4`}>
           <DragIcon className="mr-2" />
           <ConstructorElement
             text={data[1].name}
@@ -69,16 +68,15 @@ const BurgerConstructor = ({ data }) => {
             thumbnail={data[1].image}
           />
         </div>
-        <div className={`${item} mt-4`}>
-          <DragIcon className="mr-2" />
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={data[0].name}
-            price={data[0].price}
-            thumbnail={data[0].image}
-          />
-        </div>
+      </div>
+      <div className={`${item} mt-4 ml-6`}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text={data[0].name}
+          price={data[0].price}
+          thumbnail={data[0].image}
+        />
       </div>
       <div className={`${sum} mt-10`}>
         <span className={`text text_type_digits-medium mr-10`}>
