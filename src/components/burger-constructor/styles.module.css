@@ -1,5 +1,20 @@
-.constructor {
-  
+.list {
+  max-height: 368px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  border: none;
+  background: #8585AD;
 }
 
 .item {

@@ -1,0 +1,24 @@
+.modal_wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #1C1C21;
+  border-radius: 40px;
+  width: 720px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.close_icon {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+}
