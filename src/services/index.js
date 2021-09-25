@@ -1,4 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+const URL = 'https://norma.nomoreparties.space/api/ingredients';
+
+export const fetchIngredients = createAsyncThunk(
+  'ingredients/fetchIngredients',
+  async () => {
+    try {
+      const response = await fetch(URL);
+      if (response.ok) {
+        const { data } = await response.json();
+        return data;
+      } else {
+        throw new Error(response.status + ': ' + response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+)
 
 const ingredientsSlice = createSlice({
   name: 'ingredients',
@@ -7,68 +27,51 @@ const ingredientsSlice = createSlice({
     failed: false,
     ingredients: [],
   },
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchIngredients.pending, state => {
+        state.request = true;
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.request = false;
+        state.ingredients = action.payload;
+      })
+      .addCase(fetchIngredients.rejected, state => {
+        state.request = false;
+        state.failed = true;
+      })
+  }
+});
+
+const constructorSlice = createSlice({
+  name: 'constructor',
+  initialState: {
+    ingredients: [],
+  },
   reducers: {
-    getIngredientsRequestStart: state => {
-      state.request = true;
-    },
-    getIngredientsRequestFailed: state => {
-      state.failed = true;
-      state.request = false;
-    },
-    getIngredientsRequestSuccess: (state, action) => {
-      state.request = false;
-      state.ingredients = action.payload;
+    addIngredient: (state, action) => {
+      state.ingredients.push(action.payload);
     },
   },
 });
 
-const {
-  getIngredientsRequestStart,
-  getIngredientsRequestFailed,
-  getIngredientsRequestSuccess 
-} = ingredientsSlice.actions;
+export const { getIngredient, addIngredient } = constructorSlice.actions;
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients';
-
-export const getIngredientsRequest = () => async dispatch => {
-  try {
-    dispatch(getIngredientsRequestStart());
-    const response = await fetch(URL);
-    if (response.ok) {
-      const { data } = await response.json();
-      dispatch(getIngredientsRequestSuccess(data))
-    } else {
-      throw new Error(response.status + ': ' + response.statusText);
-    }
-  } catch (error) {
-    console.log(error);
-    dispatch(getIngredientsRequestFailed());
-  }
-}
-
-const constructorSlice = createSlice({
-  name: 'constructor',
-  initialState: [],
-  reducers: {
-    getIngredients: (state) => state + 1,
-  },
-  });
-
-const currentIngredientSlice = createSlice({
-  name: 'currentIngredient',
+const ingredientSlice = createSlice({
+  name: 'ingredient',
   initialState: null,
   reducers: {
       setIngredient: (state, action) => action,
-      getIngredient: state => state,
       cleanIngredient: state => null,
   },
 });
 
-export const { setIngredient, getIngredient } = currentIngredientSlice.actions;
+export const { setIngredient, cleanIngredient } = ingredientSlice.actions;
 
 const orderURL = 'https://norma.nomoreparties.space/api/orders';
 
-const order = createSlice({
+const orderSlice = createSlice({
   name: 'order',
   initialState: {
     orderRequestStart: false,
@@ -86,7 +89,7 @@ const order = createSlice({
   },
 });
 
-const { orderRequestStart, orderRequestSuccess, orderRequestFailed } = order.actions;
+const { orderRequestStart, orderRequestSuccess, orderRequestFailed } = orderSlice.actions;
 
 export const orderRequest = (order) => async dispatch => {
   try {
@@ -109,3 +112,12 @@ export const orderRequest = (order) => async dispatch => {
     dispatch(orderRequestFailed);
   }
 }
+
+const reducer = {
+  ingredients: ingredientsSlice.reducer,
+  ingredient: ingredientSlice.reducer,
+  constructor: constructorSlice.reducer,
+  order: orderSlice.reducer,
+}
+
+export default reducer;
