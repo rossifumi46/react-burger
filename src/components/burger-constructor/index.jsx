@@ -10,9 +10,16 @@ import { constructor, item, sum, list } from "./styles.module.css";
 import { ingredientPropTypes } from "../types";
 import OrderDetails from "../order-details";
 import Modal from "../modal";
+import { useDrop, useDrag } from "react-dnd";
 
 const BurgerConstructor = ({ data }) => {
   const [isOpen, setOpen] = useState(false);
+  const [{} , dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(id) {
+
+    },
+  });
 
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);

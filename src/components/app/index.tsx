@@ -3,6 +3,8 @@ import styles from './styles.module.css'
 import AppHeader from '../app-header';
 import BurgerConstructor from '../burger-constructor';
 import BurgerIngredients from '../burger-ingredients';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -32,10 +34,10 @@ function App() {
       <AppHeader />
       <main className={`${styles.main}`}>
         {data.length > 0 && (
-          <>
+          <DndProvider backend={HTML5Backend}>
             <BurgerIngredients data={data} />
             <BurgerConstructor data={data} />
-          </>
+          </DndProvider>  
         )}
       </main>
     </div>

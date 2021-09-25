@@ -6,11 +6,20 @@ import { ingredientPropTypes } from "../types";
 import IngredientDetails from "../ingredient-details";
 import IngredientCard from "../ingredient-card";
 import Modal from "../modal";
+import { useDrag } from "react-dnd"
 
 const BurgerIngredients = ({ data }) => {
   const [current, setCurrent] = React.useState(null);
 
   const [isOpen, setOpen] = useState(false);
+
+  const [{}, dragRef] = useDrag({
+    type: 'ingredient',
+    item: {},
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+  })
+  });
 
   const handleClose = () => setOpen(false);
   const handleOpen = (data) => () => {
@@ -39,6 +48,7 @@ const BurgerIngredients = ({ data }) => {
             .filter((item) => item.type === "bun")
             .map((item) => (
               <IngredientCard
+                ref={dragRef}
                 ingredient={item}
                 onClick={handleOpen(item)}
                 key={item._id}
@@ -51,6 +61,7 @@ const BurgerIngredients = ({ data }) => {
             .filter((item) => item.type === "sauce")
             .map((item) => (
               <IngredientCard
+                ref={dragRef}
                 ingredient={item}
                 onClick={handleOpen(item)}
                 key={item._id}
@@ -63,6 +74,7 @@ const BurgerIngredients = ({ data }) => {
             .filter((item) => item.type === "main")
             .map((item) => (
               <IngredientCard
+                ref={dragRef}
                 ingredient={item}
                 onClick={handleOpen(item)}
                 key={item._id}
