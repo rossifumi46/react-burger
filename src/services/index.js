@@ -1,21 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { v4 as uuid } from 'uuid';
 
 const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    try {
-      const response = await fetch(URL);
-      if (response.ok) {
-        const { data } = await response.json();
-        return data;
-      } else {
-        throw new Error(response.status + ': ' + response.statusText);
-      }
-    } catch (error) {
-      console.log(error);
-      return;
+    const response = await fetch(URL);
+    if (response.ok) {
+      const { data } = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + ': ' + response.statusText);
     }
   }
 )
@@ -45,25 +41,49 @@ const ingredientsSlice = createSlice({
 });
 
 const constructorSlice = createSlice({
-  name: 'constructor',
+  name: 'builder',
   initialState: {
-    ingredients: [],
+    main: [],
+    bun: null,
+    counter: 0,
   },
   reducers: {
     addIngredient: (state, action) => {
-      state.ingredients.push(action.payload);
+      if (action.payload.type !== 'bun') {
+        const newIngredient = {
+          id: uuid(),
+          ...action.payload,
+        };
+        state.main.push(newIngredient);
+        state.counter += 1;
+      } else {
+        if (!state.bun) state.counter += 2;
+        state.bun = action.payload;
+      }
     },
+    removeIngredient: (state, action) => {
+      state.main = state.main.filter((_, index) => index !== action.payload);
+      state.counter -= 1;
+    },
+    removeBun: state => {
+      state.bun = null;
+      state.counter -= 2;
+    },
+    moveIngredient: (state, action) => {
+      const [dragIndex, hoverIndex] = action.payload;
+      state.main.splice(hoverIndex, 0, state.main.splice(dragIndex, 1)[0]);
+    }
   },
 });
 
-export const { getIngredient, addIngredient } = constructorSlice.actions;
+export const { addIngredient, removeIngredient, moveIngredient, removeBun } = constructorSlice.actions;
 
 const ingredientSlice = createSlice({
   name: 'ingredient',
   initialState: null,
   reducers: {
-      setIngredient: (state, action) => action,
-      cleanIngredient: state => null,
+      setIngredient: (_, action) => action.payload,
+      cleanIngredient: () => null,
   },
 });
 
@@ -71,29 +91,9 @@ export const { setIngredient, cleanIngredient } = ingredientSlice.actions;
 
 const orderURL = 'https://norma.nomoreparties.space/api/orders';
 
-const orderSlice = createSlice({
-  name: 'order',
-  initialState: {
-    orderRequestStart: false,
-    orderRequestFailed: false,
-    order: [],
-    orderDetails: null,
-  },
-  reducers: {
-    orderRequestStart: state => state.orderRequestStart = true,
-    orderRequestSuccess: (state, action) => {
-      state.orderRequestStart = false;
-      state.orderDetails = action.payload;
-    },
-    orderRequestFailed: state => state.orderRequestFailed = false,
-  },
-});
-
-const { orderRequestStart, orderRequestSuccess, orderRequestFailed } = orderSlice.actions;
-
-export const orderRequest = (order) => async dispatch => {
-  try {
-    dispatch(orderRequestStart());
+export const createOrderRequest = createAsyncThunk(
+  'order/createOrderRequest',
+  async (order) => {
     const response = await fetch(orderURL, {
       method: 'POST',
       headers: {
@@ -102,21 +102,42 @@ export const orderRequest = (order) => async dispatch => {
       body: JSON.stringify(order),
     });
     if (response.ok) {
-      const { data } = await response.json();
-      dispatch(orderRequestSuccess(data))
+      const data = await response.json();
+      return data;
     } else {
       throw new Error(response.status + ': ' + response.statusText);
     }
-  } catch (error) {
-    console.log(error);
-    dispatch(orderRequestFailed);
   }
-}
+)
+
+const orderSlice = createSlice({
+  name: 'order',
+  initialState: {
+    orderRequestStart: false,
+    orderRequestFailed: false,
+    orderDetails: null,
+  },
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(createOrderRequest.pending, state => {
+        state.orderRequestStart = true;
+      })
+      .addCase(createOrderRequest.fulfilled, (state, action) => {
+        state.orderRequestStart = false;
+        state.orderDetails = action.payload;
+      })
+      .addCase(createOrderRequest.rejected, state => {
+        state.orderRequestStart = false;
+        state.orderRequestFailed = true;
+      })
+  }
+});
 
 const reducer = {
   ingredients: ingredientsSlice.reducer,
   ingredient: ingredientSlice.reducer,
-  constructor: constructorSlice.reducer,
+  builder: constructorSlice.reducer,
   order: orderSlice.reducer,
 }
 

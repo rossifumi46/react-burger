@@ -6,7 +6,7 @@ import { useDrag } from "react-dnd";
 
 const IngredientCard = ({ ingredient, onClick }) => {
   
-  const [{}, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: ingredient,
     collect: monitor => ({
