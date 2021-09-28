@@ -37,8 +37,8 @@ const BurgerConstructor = () => {
   const handleClose = () => setOpen(false);
 
   const handleCreateOrder = () => {
-    const order = main.map((ingredient) => ingredient._id);
-    bun && order.push(bun._id);
+    let order = main.map((ingredient) => ingredient._id);
+    if (bun) order = [...order, bun._id, bun._id];
     dispatch(createOrderRequest({ ingredients: order }));
     setOpen(true);
   };
@@ -52,7 +52,7 @@ const BurgerConstructor = () => {
               <ConstructorElement
                 type="top"
                 isLocked={main.length > 0}
-                text={bun.name}
+                text={bun.name + ' (вверх)'}
                 price={bun.price}
                 thumbnail={bun.image}
                 handleClose={() => dispatch(removeBun())}
@@ -69,7 +69,7 @@ const BurgerConstructor = () => {
               <ConstructorElement
                 type="bottom"
                 isLocked={main.length > 0}
-                text={bun.name}
+                text={bun.name + ' (низ)'}
                 price={bun.price}
                 thumbnail={bun.image}
                 handleClose={() => dispatch(removeBun())}

@@ -45,7 +45,7 @@ const constructorSlice = createSlice({
   initialState: {
     main: [],
     bun: null,
-    counter: 0,
+    counts: {},
   },
   reducers: {
     addIngredient: (state, action) => {
@@ -54,20 +54,24 @@ const constructorSlice = createSlice({
           id: uuid(),
           ...action.payload,
         };
+        state.counts[action.payload._id] = state.counts[action.payload._id] ? state.counts[action.payload._id] + 1 : 1
         state.main.push(newIngredient);
-        state.counter += 1;
       } else {
-        if (!state.bun) state.counter += 2;
+        if (state.bun) state.counts[state.bun._id] = null;
         state.bun = action.payload;
+        state.counts[action.payload._id] = 2;
       }
     },
     removeIngredient: (state, action) => {
+      state.counts[state.main[action.payload]._id] =
+        state.counts[state.main[action.payload]._id] > 1
+        ? state.counts[state.main[action.payload]._id] - 1
+        : null;
       state.main = state.main.filter((_, index) => index !== action.payload);
-      state.counter -= 1;
     },
     removeBun: state => {
+      delete state.counts[state.bun._id];
       state.bun = null;
-      state.counter -= 2;
     },
     moveIngredient: (state, action) => {
       const [dragIndex, hoverIndex] = action.payload;
