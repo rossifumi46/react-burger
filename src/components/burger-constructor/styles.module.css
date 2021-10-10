@@ -20,6 +20,7 @@
 .item {
   display: flex;
   align-items: center;
+  min-width: 560px;
 }
 
 .sum {

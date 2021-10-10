@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,17 +7,17 @@ import ModalOverlay from "../modal-overlay";
 
 const modalRoot = document.getElementById("root");
 
-function Modal({ children, header, onClose, isOpen }) {
-  useEffect(() => {
-    document.addEventListener("keydown", onEscPressClose);
-    return () => document.removeEventListener("keydown", onEscPressClose);
-  }, []);
-
-  const onEscPressClose = ({ key }) => {
+function Modal({ children, header, onClose }) {
+  const onEscPressClose = useCallback(({ key }) => {
     if (key === "Escape") {
       onClose();
     }
-  };
+  }, [onClose]);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", onEscPressClose);
+    return () => document.removeEventListener("keydown", onEscPressClose);
+  }, [onEscPressClose]);
 
   return ReactDOM.createPortal(
     <div className={modal_wrapper} onClick={onClose}>
@@ -27,7 +27,7 @@ function Modal({ children, header, onClose, isOpen }) {
           <CloseIcon onClick={onClose} type="primary" />
         </div>
         {header && (
-          <h2 className={`${header} text text_type_main-large`}>{header}</h2>
+          <h2 className={`text text_type_main-large mt-3`}>{header}</h2>
         )}
         {children}
       </div>
