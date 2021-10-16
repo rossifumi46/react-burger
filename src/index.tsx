@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 // import logger from 'redux-logger'
 import { Provider } from "react-redux";
-import reducer from './services';
+import reducer from './services/store';
 
 const store = configureStore({
   reducer,

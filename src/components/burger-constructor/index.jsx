@@ -9,15 +9,22 @@ import OrderDetails from "../order-details";
 import Modal from "../modal";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { addIngredient, createOrderRequest, removeBun } from "../../services";
+import {
+  addIngredient,
+  createOrderRequest,
+  removeBun,
+} from "../../services/store";
 import Main from "../main";
+import { useHistory } from "react-router";
 
 const add = (accumulator, a) => accumulator + a.price;
 
 const BurgerConstructor = () => {
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { main, bun } = useSelector((store) => store.builder);
+  const { user } = useSelector((store) => store.auth);
   const { orderDetails, orderRequestFailed, orderRequestStart } = useSelector(
     (store) => store.order
   );
@@ -36,11 +43,15 @@ const BurgerConstructor = () => {
 
   const handleClose = () => setOpen(false);
 
-  const handleCreateOrder = () => {
-    let order = main.map((ingredient) => ingredient._id);
-    if (bun) order = [...order, bun._id, bun._id];
-    dispatch(createOrderRequest({ ingredients: order }));
-    setOpen(true);
+  const handleCreateOrder = async () => {
+    if (!user) {
+      history.replace('/login');
+    } else {
+      let order = main.map((ingredient) => ingredient._id);
+      if (bun) order = [...order, bun._id, bun._id];
+      await dispatch(createOrderRequest({ ingredients: order }));
+      setOpen(true);
+    }
   };
 
   return (
@@ -52,7 +63,7 @@ const BurgerConstructor = () => {
               <ConstructorElement
                 type="top"
                 isLocked={main.length > 0}
-                text={bun.name + ' (вверх)'}
+                text={bun.name + " (вверх)"}
                 price={bun.price}
                 thumbnail={bun.image}
                 handleClose={() => dispatch(removeBun())}
@@ -69,7 +80,7 @@ const BurgerConstructor = () => {
               <ConstructorElement
                 type="bottom"
                 isLocked={main.length > 0}
-                text={bun.name + ' (низ)'}
+                text={bun.name + " (низ)"}
                 price={bun.price}
                 thumbnail={bun.image}
                 handleClose={() => dispatch(removeBun())}
@@ -77,13 +88,18 @@ const BurgerConstructor = () => {
             </div>
           )}
           <div className={`${sum} mt-10`}>
-            <span className={`text text_type_digits-medium mr-10`}>
-              {totalPrice} <CurrencyIcon />
-            </span>
-            <Button onClick={handleCreateOrder} type="primary" size="large" disabled={orderRequestStart}>
-              {orderRequestStart ? 'Загрука...' : 'Оформить заказ'}
-            </Button>
-          </div>
+              <span className={`text text_type_digits-medium mr-10`}>
+                {totalPrice} <CurrencyIcon />
+              </span>
+              <Button
+                onClick={handleCreateOrder}
+                type="primary"
+                size="large"
+                disabled={orderRequestStart}
+              >
+                {orderRequestStart ? "Загрука..." : "Оформить заказ"}
+              </Button>
+            </div>
         </>
       ) : (
         <h2 className="text text_type_main-large">Добавьте ингредиенты</h2>
@@ -91,7 +107,7 @@ const BurgerConstructor = () => {
       {isOpen && orderDetails && (
         <Modal
           onClose={handleClose}
-          {...(orderRequestFailed && { header: 'Что-то пошло не так...' })}
+          {...(orderRequestFailed && { header: "Что-то пошло не так..." })}
         >
           <OrderDetails isOpen={isOpen} details={orderDetails} />
         </Modal>

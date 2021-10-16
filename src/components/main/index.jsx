@@ -5,7 +5,7 @@ import {
 import { item } from "../burger-constructor/styles.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from 'react-redux';
-import { moveIngredient, removeIngredient } from "../../services";
+import { moveIngredient, removeIngredient } from "../../services/store";
 import { useRef } from "react";
 import { ingredientPropTypes } from "../types";
 import PropTypes from "prop-types";
