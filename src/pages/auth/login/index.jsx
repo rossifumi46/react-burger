@@ -12,7 +12,7 @@ import { Redirect, useHistory} from "react-router";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { accessToken, refreshToken } = useSelector(
+  const { accessToken, refreshToken, loginRequestFailed } = useSelector(
     (store) => store.auth
   );
   const history = useHistory();
@@ -29,7 +29,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken.split('Bearer ')[1]);
+      localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
     }
   }, [accessToken, refreshToken, history]);
