@@ -12,7 +12,7 @@ import { Redirect, useHistory} from "react-router";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { accessToken, refreshToken, loginRequestFailed } = useSelector(
+  const { accessToken } = useSelector(
     (store) => store.auth
   );
   const history = useHistory();
@@ -27,16 +27,9 @@ function LoginPage() {
     );
   };
 
-  useEffect(() => {
-    if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-    }
-  }, [accessToken, refreshToken, history]);
-
   const token = localStorage.getItem('accessToken');
 
-  if (token || accessToken) {
+  if (accessToken || token) {
     return (
       // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect

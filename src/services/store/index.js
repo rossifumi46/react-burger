@@ -133,6 +133,8 @@ export const loginRequest = createAsyncThunk(
   async (body) => {
     const data = await api.login(body);
     if (data === 'error') throw new Error();
+    localStorage.setItem("accessToken", data.accessToken.split("Bearer ")[1]);
+    localStorage.setItem("refreshToken", data.refreshToken);
     return data;
   }
 );
@@ -211,7 +213,7 @@ const authSlice = createSlice({
       .addCase(loginRequest.fulfilled, (state, action) => {
         state.loginRequestStart = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.accessToken = action.payload.accessToken.split("Bearer ")[1];
         state.refreshToken = action.payload.refreshToken;
       })
       .addCase(loginRequest.rejected, state => {
@@ -224,7 +226,7 @@ const authSlice = createSlice({
       .addCase(registerRequest.fulfilled, (state, action) => {
         state.registerRequestStart = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.accessToken = action.payload.accessToken.split("Bearer ")[1];
         state.refreshToken = action.payload.refreshToken;
       })
       .addCase(registerRequest.rejected, state => {
