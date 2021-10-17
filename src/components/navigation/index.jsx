@@ -15,8 +15,6 @@ function Navigation({ location }) {
 
   const logout = async () => {
     await dispatch(logoutRequest());
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
     history.replace('/login');
   };
 

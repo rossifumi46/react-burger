@@ -20,7 +20,7 @@ function ProfilePage() {
   });
 
   useEffect(() => {
-    if (user) setState(user);
+    if (user) setState(state => ({ ...user, password: state.password}));
   }, [user]);
 
   const handleChange = (e) => {
