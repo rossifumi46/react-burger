@@ -5,10 +5,9 @@ import {
   EmailInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import AppHeader from "../../components/app-header";
 import Navigation from "../../components/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfileRequest } from "../../services/store";
+import { updateProfileRequest } from "../../services/slices/authSlice";
 import { shallowEqual } from '../../utils';
 
 function ProfilePage() {
@@ -50,7 +49,6 @@ function ProfilePage() {
 
   return (
     <>
-      <AppHeader />
       <main className={[styles.profile, "main mt-30"].join(" ")}>
         <Navigation location="profile" />
         <form className={styles.form} onSubmit={handleSubmit}>

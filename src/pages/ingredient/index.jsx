@@ -1,5 +1,4 @@
 import styles from "./styles.module.css";
-import AppHeader from "../../components/app-header";
 import { useSelector } from "react-redux";
 import IngredientDetails from "../../components/ingredient-details";
 import { Redirect, useParams } from "react-router";
@@ -13,7 +12,6 @@ function IngredientPage() {
 
   return (
     <>
-      <AppHeader />
       <main className={[styles.ingredient, "main mt-30"].join(" ")}>
         <IngredientDetails ingredient={ingredient} />
       </main>

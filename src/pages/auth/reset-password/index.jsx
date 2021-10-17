@@ -1,7 +1,6 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import AppHeader from "../../../components/app-header";
 import api from "../../../services/api";
 import styles from '../styles.module.css';
 import { useHistory } from 'react-router';
@@ -16,7 +15,7 @@ function ResetPasswordPage() {
     } else {
       history.replace();
     }
-  }, []);
+  }, [history, isActive]);
 
   async function handleSubmit(e) {
     try {
@@ -29,7 +28,6 @@ function ResetPasswordPage() {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.auth}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Восстановление пароля</h1>

@@ -20,8 +20,8 @@ function Modal({ children, header, onClose }) {
   }, [onEscPressClose]);
 
   return ReactDOM.createPortal(
-    <div className={modal_wrapper} onClick={onClose}>
-      <ModalOverlay />
+    <div className={modal_wrapper}>
+      <ModalOverlay onClick={onClose} />
       <div className={`${modal} p-10`} onClick={e => e.stopPropagation()}>
         <div className={`${close_icon}`}>
           <CloseIcon onClick={onClose} type="primary" />

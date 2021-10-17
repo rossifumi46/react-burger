@@ -2,11 +2,9 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import AppHeader from "../../../components/app-header";
-import { loginRequest } from "../../../services/store";
+import { loginRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory} from "react-router";
 
@@ -41,7 +39,6 @@ function LoginPage() {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.auth}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Вход</h1>

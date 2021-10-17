@@ -9,13 +9,10 @@ import OrderDetails from "../order-details";
 import Modal from "../modal";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addIngredient,
-  createOrderRequest,
-  removeBun,
-} from "../../services/store";
 import Main from "../main";
 import { useHistory } from "react-router";
+import { addIngredient, removeBun } from "../../services/slices/constructorSlice";
+import { createOrderRequest } from "../../services/slices/orderSlice";
 
 const add = (accumulator, a) => accumulator + a.price;
 

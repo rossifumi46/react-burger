@@ -37,7 +37,7 @@ class Api {
             "accessToken",
             refreshData.accessToken.split("Bearer ")[1]
           );
-
+          localStorage.setItem("refreshToken", refreshData.refreshToken);
           const res = await this._makeRequest(endPoint, method, {
             token: refreshData.accessToken.split("Bearer ")[1],
             body,
@@ -46,7 +46,7 @@ class Api {
         } else {
           return Promise.reject("error");
         }
-      });
+      })
   };
 
   forgotPassword(body) {

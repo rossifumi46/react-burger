@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Redirect, useHistory } from "react-router";
-import AppHeader from "../../../components/app-header";
 import styles from '../styles.module.css';
 import api from "../../../services/api";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -34,7 +33,6 @@ function ForgotPasswordPage() {
 
   return (
     <>
-      <AppHeader />
       <main className={[styles.auth, 'mt-100'].join(' ')}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Восстановление пароля</h1>

@@ -8,15 +8,17 @@ import ResetPasswordPage from "../../pages/auth/reset-password";
 import RegisterPage from "../../pages/auth/register";
 import BurgerConstructorPage from "../../pages/burger-constructor";
 import IngredientPage from "../../pages/ingredient";
-import { fetchIngredients } from "../../services/store";
+import { fetchIngredients } from "../../services/slices/ingredientsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { Redirect, useHistory, useLocation } from "react-router";
 import ModalPage from "../../pages/modal/ModalPage";
 import OrdersPage from "../../pages/orders";
 import NotFound404 from "../../pages/not-found-404";
+import AppHeader from "../app-header";
 
 function ModalSwitch() {
   const location = useLocation();
+  const history = useHistory();
 
   // This piece of state is set when one of the
   // gallery links is clicked. The `background` state
@@ -25,10 +27,11 @@ function ModalSwitch() {
   // use it as the location for the <Switch> so
   // we show the gallery in the background, behind
   // the modal.
-  const background = location.state && location.state.background;
+  const background = history.action === 'PUSH' && location.state && location.state.background;
 
   return (
     <>
+      <AppHeader />
       <Switch location={background || location}>
         <Route path="/" exact>
           <BurgerConstructorPage />

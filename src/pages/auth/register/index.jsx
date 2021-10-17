@@ -6,8 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import AppHeader from "../../../components/app-header";
-import { registerRequest } from "../../../services/store";
+import { registerRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory } from "react-router";
 
@@ -44,7 +43,6 @@ function RegisterPage() {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.auth}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Регистрация</h1>

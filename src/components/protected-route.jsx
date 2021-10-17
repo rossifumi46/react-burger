@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { setTokenAction, userRequest } from "../services/store";
+import { setTokenAction, userRequest } from "../services/slices/authSlice";
 
 export function ProtectedRoute({ children, ...rest }) {
   const [isUserLoaded, setUserLoaded] = useState(false);
@@ -12,12 +12,12 @@ export function ProtectedRoute({ children, ...rest }) {
 
   const init = useCallback(async () => {
     const token = localStorage.getItem('accessToken');
-    if (token) {
+    if (!user && token) {
       dispatch(setTokenAction(token));
       await dispatch(userRequest(token))
     }
     setUserLoaded(true);
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     init();

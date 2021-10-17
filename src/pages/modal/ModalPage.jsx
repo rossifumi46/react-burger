@@ -11,14 +11,13 @@ function ModalPage() {
   if (!ingredient) return null;
 
   const back = e => {
-    e.stopPropagation();
     history.goBack();
   };
 
   return (
     <Modal header="Детали ингредиента" onClose={back}>
-    <IngredientDetails ingredient={ingredient} />
-  </Modal>
+      <IngredientDetails ingredient={ingredient} />
+    </Modal>
   )
 }
 

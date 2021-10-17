@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { logoutRequest } from '../../services/store';
+import { logoutRequest } from '../../services/slices/authSlice';
 import PropTypes from "prop-types";
 
 const tips = {
