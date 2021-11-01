@@ -1,0 +1,18 @@
+.profile {
+  display: flex;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.full {
+  width: 480px;
+}

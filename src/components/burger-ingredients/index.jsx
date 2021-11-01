@@ -1,28 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { grid, tabs, list, ingredients_container } from "./styles.module.css";
-import IngredientDetails from "../ingredient-details";
 import IngredientCard from "../ingredient-card";
-import Modal from "../modal";
-import { useSelector, useDispatch } from 'react-redux';
-import { cleanIngredient, setIngredient } from "../../services";
+import { useSelector } from 'react-redux';
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState(0);
   const { ingredients } = useSelector(store => store.ingredients);
-  const ingredient = useSelector(store => store.ingredient);
-  const dispatch = useDispatch();
-
-  const [isOpen, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-    dispatch(cleanIngredient());
-  }
-  const handleOpen = (ingredient) => () => {
-    dispatch(setIngredient(ingredient));
-    setOpen(true);
-  };
 
   const ref = useRef();
 
@@ -62,7 +46,7 @@ const BurgerIngredients = () => {
             .map((item) => (
               <IngredientCard
                 ingredient={item}
-                onClick={handleOpen(item)}
+                // onClick={handleOpen(item)}
                 key={item._id}
               />
             ))}
@@ -73,7 +57,6 @@ const BurgerIngredients = () => {
             .map((item) => (
               <IngredientCard
                 ingredient={item}
-                onClick={handleOpen(item)}
                 key={item._id}
               />
             ))}
@@ -84,17 +67,11 @@ const BurgerIngredients = () => {
             .map((item) => (
               <IngredientCard
                 ingredient={item}
-                onClick={handleOpen(item)}
                 key={item._id}
               />
             ))}
         </div>
       </div>
-      {isOpen && (
-        <Modal header="Детали ингредиента" onClose={handleClose}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
     </section>
   );
 };

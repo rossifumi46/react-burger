@@ -5,10 +5,10 @@ import {
 import { item } from "../burger-constructor/styles.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from 'react-redux';
-import { moveIngredient, removeIngredient } from "../../services";
 import { useRef } from "react";
 import { ingredientPropTypes } from "../types";
 import PropTypes from "prop-types";
+import { moveIngredient, removeIngredient } from "../../services/slices/constructorSlice";
 
 const Main = ({ ingredient, index }) => {
   const ref = useRef(null);

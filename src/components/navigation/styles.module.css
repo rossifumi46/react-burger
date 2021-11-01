@@ -1,0 +1,21 @@
+.nav {
+  width: 320px;
+}
+
+.item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.tip {
+  opacity: 0.4;
+}
+
+.button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
