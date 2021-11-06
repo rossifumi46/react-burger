@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import {
   Button,
   Input,
@@ -12,16 +12,22 @@ import { Redirect, useHistory } from "react-router";
 
 function RegisterPage() {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((store) => store.auth);
+  const { accessToken } = useSelector((store: any) => store.auth);
   const history = useHistory();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const target = e.target as typeof e.target & {
+      name: { value: string };
+      password: { value: string };
+      email: { value: string };
+    };
     dispatch(
+      // @ts-ignore
       registerRequest({
-        name: e.target.name.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
+        name: target.name.value,
+        email: target.email.value,
+        password: target.password.value,
       })
     );
   };
@@ -47,20 +53,21 @@ function RegisterPage() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Регистрация</h1>
           <div className="mt-6">
+            {/* @ts-ignore */} 
             <Input type="text" name="name" placeholder="Имя" />
           </div>
           <div className="mt-6">
+            {/* @ts-ignore */} 
             <Input type="email" name="email" placeholder="Email" />
           </div>
           <div className="mt-6">
+            {/* @ts-ignore */} 
             <PasswordInput
-              type="password"
               name="password"
-              placeholder="Пароль"
             />
           </div>
           <div className="mt-6">
-            <Button type="primary" size="medium" className="mt-6">
+            <Button type="primary" size="medium">
               Зарегестрироваться
             </Button>
           </div>

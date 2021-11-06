@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, ChangeEvent, FormEvent } from "react";
 import {
   Button,
   EmailInput,
@@ -12,7 +12,7 @@ import { shallowEqual } from '../../utils';
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const { user, accessToken } = useSelector(store => store.auth);
+  const { user, accessToken } = useSelector((store: any) => store.auth);
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -23,20 +23,21 @@ function ProfilePage() {
     if (user) setState(state => ({ ...user, password: state.password}));
   }, [user]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const nameRef = useRef([]);
-  const passwordRef = useRef([]);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  const onIconClick = (ref) => () => {
-    ref.current.name === 'name' ? setNameDisabled(false) : setPasswordDisabled(false);
-    setTimeout(() => ref.current.focus(), 0);
+  const onIconClick = (ref: React.RefObject<HTMLInputElement>) => () => {
+    ref.current && ref.current.name === 'name' ? setNameDisabled(false) : setPasswordDisabled(false);
+    setTimeout(() => ref.current && ref.current.focus(), 0);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(updateProfileRequest({ token: accessToken, body: state }))
   }
 
@@ -76,12 +77,10 @@ function ProfilePage() {
               value={state.password}
               onChange={handleChange}
               name={"password"}
-              className="mt-6"
               onIconClick={onIconClick(passwordRef)}
               icon="EditIcon"
               placeholder="Пароль"
               type="password"
-              password={passwordRef }
               ref={passwordRef}
               disabled={passwordDisabled}
               onBlur={() => setPasswordDisabled(true)}

@@ -4,7 +4,7 @@ import {
   ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { constructor, item, sum, list } from "./styles.module.css";
+import styles from "./styles.module.css";
 import OrderDetails from "../order-details";
 import Modal from "../modal";
 import { useDrop } from "react-dnd";
@@ -13,17 +13,18 @@ import Main from "../main";
 import { useHistory } from "react-router";
 import { addIngredient, removeBun } from "../../services/slices/constructorSlice";
 import { createOrderRequest } from "../../services/slices/orderSlice";
+import { TIngredient } from "../../types";
 
-const add = (accumulator, a) => accumulator + a.price;
+const add = (accumulator: number, a: TIngredient) => accumulator + a.price;
 
 const BurgerConstructor = () => {
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { main, bun } = useSelector((store) => store.builder);
-  const { user } = useSelector((store) => store.auth);
+  const { main, bun } = useSelector((store: any) => store.builder);
+  const { user } = useSelector((store: any) => store.auth);
   const { orderDetails, orderRequestFailed, orderRequestStart } = useSelector(
-    (store) => store.order
+    (store: any) => store.order
   );
 
   const [, dropTarget] = useDrop({
@@ -44,19 +45,20 @@ const BurgerConstructor = () => {
     if (!user) {
       history.replace('/login');
     } else {
-      let order = main.map((ingredient) => ingredient._id);
+      let order: number[] = main.map((ingredient: TIngredient) => ingredient._id);
       if (bun) order = [...order, bun._id, bun._id];
+      // @ts-ignore
       await dispatch(createOrderRequest({ ingredients: order }));
       setOpen(true);
     }
   };
 
   return (
-    <section className={`${constructor} pt-25 pl-4`} ref={dropTarget}>
+    <section className={`${styles.constructor} pt-25 pl-4`} ref={dropTarget}>
       {bun || main.length > 0 ? (
         <>
           {bun && (
-            <div className={`${item} ml-6 mb-4`}>
+            <div className={`${styles.item} ml-6 mb-4`}>
               <ConstructorElement
                 type="top"
                 isLocked={main.length > 0}
@@ -67,13 +69,13 @@ const BurgerConstructor = () => {
               />
             </div>
           )}
-          <div className={list}>
-            {main?.map((ingredient, index) => (
-              <Main ingredient={ingredient} index={index} key={ingredient.id} />
+          <div className={styles.list}>
+            {main?.map((ingredient: TIngredient, index: number) => (
+              <Main ingredient={ingredient} index={index} key={ingredient._id} />
             ))}
           </div>
           {bun && (
-            <div className={`${item} ml-6`}>
+            <div className={`${styles.item} ml-6`}>
               <ConstructorElement
                 type="bottom"
                 isLocked={main.length > 0}
@@ -84,15 +86,15 @@ const BurgerConstructor = () => {
               />
             </div>
           )}
-          <div className={`${sum} mt-10`}>
+          <div className={`${styles.sum} mt-10`}>
               <span className={`text text_type_digits-medium mr-10`}>
-                {totalPrice} <CurrencyIcon />
+                {totalPrice} <CurrencyIcon type="primary" />
               </span>
               <Button
                 onClick={handleCreateOrder}
                 type="primary"
                 size="large"
-                disabled={orderRequestStart}
+                // disabled={orderRequestStart}
               >
                 {orderRequestStart ? "Загрука..." : "Оформить заказ"}
               </Button>

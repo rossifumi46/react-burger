@@ -15,9 +15,10 @@ import ModalPage from "../../pages/modal/ModalPage";
 import OrdersPage from "../../pages/orders";
 import NotFound404 from "../../pages/not-found-404";
 import AppHeader from "../app-header";
+import { TLocationState } from "../../types";
 
 function ModalSwitch() {
-  const location = useLocation();
+  const location = useLocation<TLocationState>();
   const history = useHistory();
 
   // This piece of state is set when one of the
@@ -57,8 +58,8 @@ function ModalSwitch() {
         <ProtectedRoute path="/profile/orders" exact>
           <OrdersPage />
         </ProtectedRoute>
-        <Route>
-          <NotFound404 path="/404"/>
+        <Route path="/404">
+          <NotFound404 />
         </Route>
         <Redirect to="/404" />
       </Switch>
@@ -71,7 +72,7 @@ function ModalSwitch() {
 function App() {
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector(store => store.ingredients);
+  const { ingredients } = useSelector((store: any) => store.ingredients);
 
   useEffect(() => {
     dispatch(fetchIngredients());
