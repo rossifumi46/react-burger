@@ -7,20 +7,27 @@ import { Link } from "react-router-dom";
 import { loginRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory} from "react-router";
+import { FormEvent } from "react";
+import { TLocationState } from "../../../types";
 
 function LoginPage() {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(
-    (store) => store.auth
+    (store: any) => store.auth
   );
-  const history = useHistory();
+  const history = useHistory<TLocationState>();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const target = e.target as typeof e.target & {
+      password: { value: string };
+      email: { value: string };
+    };
     dispatch(
+      // @ts-ignore
       loginRequest({
-        email: e.target.email.value,
-        password: e.target.password.value,
+        email: target.email.value,
+        password: target.password.value,
       })
     );
   };
@@ -43,9 +50,11 @@ function LoginPage() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Вход</h1>
           <div className="mt-6">
+            {/* @ts-ignore */} 
             <Input type="email" name="email" placeholder="Email" />
           </div>
           <div className="mt-6">
+            {/* @ts-ignore */} 
             <Input type="password" name="password" placeholder="Пароль" />
           </div>
           <div className="mt-6">

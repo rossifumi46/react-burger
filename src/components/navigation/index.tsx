@@ -1,15 +1,19 @@
+import React from 'react';
 import styles from './styles.module.css';
 import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { logoutRequest } from '../../services/slices/authSlice';
-import PropTypes from "prop-types";
 
-const tips = {
+const tips: Record<string, string> = {
   profile: 'В этом разделе вы можете изменить свои персональные данные',
 }
 
-function Navigation({ location }) {
+type TProps = {
+  location: string;
+}
+
+const Navigation: React.FC<TProps> = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -28,7 +32,7 @@ function Navigation({ location }) {
           <NavLink to="/profile/orders" className="secondary" activeClassName="primary">История заказов</NavLink>
         </li>
         <li className={styles.item}>
-          <button onClick={logout} className={[styles.button, 'text text_type_main-medium secondary'].join(' ')} size="large">Выход</button>
+          <button onClick={logout} className={[styles.button, 'text text_type_main-medium secondary'].join(' ')}>Выход</button>
         </li>
       </ul>
       <span className={[styles.tip, 'text text_type_main-default secondary'].join(' ')}>{tips[location]}</span>
@@ -36,7 +40,4 @@ function Navigation({ location }) {
   );
 }
 
-Navigation.propTypes = {
-  location: PropTypes.string.isRequired,
-}
 export default Navigation;

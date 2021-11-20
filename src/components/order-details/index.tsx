@@ -1,15 +1,21 @@
-import { container } from "./styles.module.css";
+import React from 'react';
+import styles from "./styles.module.css";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { orderDetails } from "../types";
+import { TOrderDetails } from '../../types';
 
-function OrderDetails({ details  }) {
+type TProps = {
+  details: TOrderDetails;
+  isOpen: boolean;
+}
+
+const OrderDetails: React.FC<TProps> = ({ details }) => {
   return (
-    <div className={`${container} pt-30 pb-30`}>
+    <div className={`${styles.container} pt-30 pb-30`}>
       <h2 className="text text_type_digits-large ">{details.order.number}</h2>
       <span className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
       </span>
-      <CheckMarkIcon />
+      <CheckMarkIcon type="primary" />
       <span className="text text_type_main-default mt-15">
         Ваш заказ начали готовить
       </span>
@@ -19,9 +25,5 @@ function OrderDetails({ details  }) {
     </div>
   );
 }
-
-OrderDetails.propTypes = {
-  details: orderDetails.isRequired,
-};
 
 export default OrderDetails;

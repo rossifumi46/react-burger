@@ -2,16 +2,20 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { item } from "../burger-constructor/styles.module.css";
+import styles from "../burger-constructor/styles.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from 'react-redux';
 import { useRef } from "react";
-import { ingredientPropTypes } from "../types";
-import PropTypes from "prop-types";
 import { moveIngredient, removeIngredient } from "../../services/slices/constructorSlice";
+import { TIngredient } from "../../types";
 
-const Main = ({ ingredient, index }) => {
-  const ref = useRef(null);
+type TProps = {
+  ingredient: TIngredient;
+  index: number;
+}
+
+const Main: React.FC<TProps> = ({ ingredient, index }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [, drag] = useDrag({
     type: 'main',
@@ -23,7 +27,7 @@ const Main = ({ ingredient, index }) => {
 
   const [, drop] = useDrop({
     accept: 'main',
-    hover(item, monitor) {
+    hover(item: TProps, monitor) {
       if (!ref.current) {
         return;
       }
@@ -40,6 +44,7 @@ const Main = ({ ingredient, index }) => {
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
       // Get pixels to the top
+      if (!clientOffset) return;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       // Only perform the move when the mouse has crossed half of the items height
       // When dragging downwards, only move when the cursor is below 50%
@@ -65,8 +70,10 @@ const Main = ({ ingredient, index }) => {
   drag(drop(ref));
 
   return (
-    <div className={`${item} mb-4`} ref={ref}>
-      <DragIcon className="mr-2" />
+    <div className={`${styles.item} mb-4`} ref={ref}>
+      <div className="mr-2">
+        <DragIcon type="primary" />
+      </div>
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
@@ -76,10 +83,5 @@ const Main = ({ ingredient, index }) => {
     </div>
   );
 };
-
-Main.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-  index: PropTypes.number.isRequired,
-}
 
 export default Main;

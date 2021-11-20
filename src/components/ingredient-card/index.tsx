@@ -3,15 +3,19 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../types";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
+import { TIngredient } from "../../types";
 
-const IngredientCard = ({ ingredient, onClick }) => {
+type TProps = {
+  ingredient: TIngredient;
+}
+
+const IngredientCard: React.FC<TProps> = ({ ingredient }) => {
   const location = useLocation();
-  const { counts } = useSelector((store) => store.builder);
+  const { counts } = useSelector((store: any) => store.builder);
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -24,7 +28,7 @@ const IngredientCard = ({ ingredient, onClick }) => {
   return (
     <div
       className={`${styles.card}`}
-      id={ingredient._id}
+      id={ingredient._id + ''}
       ref={dragRef}
     >
       <Link
@@ -52,10 +56,6 @@ const IngredientCard = ({ ingredient, onClick }) => {
       </Link>
     </div>
   );
-};
-
-IngredientCard.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
 };
 
 export default IngredientCard;

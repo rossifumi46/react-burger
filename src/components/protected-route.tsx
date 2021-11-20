@@ -3,17 +3,23 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { setTokenAction, userRequest } from "../services/slices/authSlice";
 
-export function ProtectedRoute({ children, ...rest }) {
+type TProps = {
+  path: string;
+  exact: boolean;
+};
+
+export const ProtectedRoute: React.FC<TProps> = ({ children, ...rest }) => {
   const [isUserLoaded, setUserLoaded] = useState(false);
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector(store => store.auth);
+  const { user } = useSelector((store: any) => store.auth);
 
   const init = useCallback(async () => {
     const token = localStorage.getItem('accessToken');
     if (!user && token) {
       dispatch(setTokenAction(token));
+      // @ts-ignore
       await dispatch(userRequest(token))
     }
     setUserLoaded(true);
