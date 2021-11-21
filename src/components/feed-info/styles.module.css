@@ -1,0 +1,11 @@
+.orders {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  row-gap: 8px;
+  column-gap: 16px;
+}

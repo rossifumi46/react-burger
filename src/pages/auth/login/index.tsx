@@ -2,18 +2,18 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { loginRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory} from "react-router";
 import { FormEvent } from "react";
 import { TLocationState } from "../../../types";
+import { useDispatch, useSelector } from "../../../services/store";
 
 function LoginPage() {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(
-    (store: any) => store.auth
+    (store) => store.auth
   );
   const history = useHistory<TLocationState>();
 

@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import { setTokenAction, userRequest } from "../services/slices/authSlice";
+import { useDispatch, useSelector } from '../services/store';
 
 type TProps = {
   path: string;
@@ -13,7 +13,7 @@ export const ProtectedRoute: React.FC<TProps> = ({ children, ...rest }) => {
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector((store: any) => store.auth);
+  const { user } = useSelector((store) => store.auth);
 
   const init = useCallback(async () => {
     const token = localStorage.getItem('accessToken');

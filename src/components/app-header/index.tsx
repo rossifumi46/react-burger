@@ -17,7 +17,7 @@ const AppHeader = () => {
             <BurgerIcon type={getType(isConstructor)} />
             <span className="text text_type_main-default ml-2">Конструктор</span>
           </NavLink>
-          <NavLink to="/lenta" className={`p-5 ml-2 ${styles.link} secondary`} activeClassName="primary">
+          <NavLink to="/feed" className={`p-5 ml-2 ${styles.link} secondary`} activeClassName="primary">
             <ListIcon type={getType(isFeed)} />
             <span className={`text text_type_main-default ml-2`}>Лента заказов</span>
           </NavLink>

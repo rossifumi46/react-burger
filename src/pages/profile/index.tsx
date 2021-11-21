@@ -6,14 +6,16 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Navigation from "../../components/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { updateProfileRequest } from "../../services/slices/authSlice";
+import { TUser, updateProfileRequest } from "../../services/slices/authSlice";
 import { shallowEqual } from '../../utils';
+import { useDispatch, useSelector } from "../../services/store";
+
+type TProfile = TUser & { password?: string };
 
 function ProfilePage() {
   const dispatch = useDispatch();
-  const { user, accessToken } = useSelector((store: any) => store.auth);
-  const [state, setState] = useState({
+  const { user, accessToken } = useSelector((store) => store.auth);
+  const [state, setState] = useState<TProfile>({
     name: "",
     email: "",
     password: "",
@@ -74,7 +76,7 @@ function ProfilePage() {
           </div>
           <div className="mt-6">
             <Input
-              value={state.password}
+              value={state.password || ''}
               onChange={handleChange}
               name={"password"}
               onIconClick={onIconClick(passwordRef)}

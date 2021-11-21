@@ -12,10 +12,13 @@ import { fetchIngredients } from "../../services/slices/ingredientsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useLocation } from "react-router";
 import ModalPage from "../../pages/modal/ModalPage";
-import OrdersPage from "../../pages/orders";
 import NotFound404 from "../../pages/not-found-404";
 import AppHeader from "../app-header";
 import { TLocationState } from "../../types";
+import { FeedPage } from "../../pages/feed";
+import { OrderHistoryPage } from "../../pages/order-history";
+import { OrderInfoPage } from "../../pages/order-info";
+import ModalOrderPage from "../../pages/modal-order";
 
 function ModalSwitch() {
   const location = useLocation<TLocationState>();
@@ -28,12 +31,13 @@ function ModalSwitch() {
   // use it as the location for the <Switch> so
   // we show the gallery in the background, behind
   // the modal.
-  const background = history.action === 'PUSH' && location.state && location.state.background;
+  const ingredient = history.action === 'PUSH' && location.state && location.state.ingredient;
+  const order = history.action === 'PUSH' && location.state && location.state.order;
 
   return (
     <>
       <AppHeader />
-      <Switch location={background || location}>
+      <Switch location={ingredient || order|| location}>
         <Route path="/" exact>
           <BurgerConstructorPage />
         </Route>
@@ -56,7 +60,19 @@ function ModalSwitch() {
           <ProfilePage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
-          <OrdersPage />
+          <OrderHistoryPage />
+        </ProtectedRoute>
+        <Route path="/feed" exact>
+          <FeedPage />
+        </Route>
+        <Route path="/feed/:id" exact>
+          <OrderInfoPage type="feed" />
+        </Route>
+        <ProtectedRoute path="/profile/orders" exact>
+          <OrderHistoryPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id" exact>
+          <OrderInfoPage type="history" />
         </ProtectedRoute>
         <Route path="/404">
           <NotFound404 />
@@ -64,7 +80,17 @@ function ModalSwitch() {
         <Redirect to="/404" />
       </Switch>
 
-      {background && <Route path="/ingredients/:id" children={<ModalPage />} />}
+      {ingredient && <Route path="/ingredients/:id" children={<ModalPage />} />}
+      {order && (
+        <>
+          <Route path="/feed/:id">
+            <ModalOrderPage />
+          </Route>
+          <Route path="/profile/orders/:id">
+            <ModalOrderPage />
+          </Route>
+        </>
+      )}
     </>
   );
 }

@@ -2,15 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const orderURL = 'https://norma.nomoreparties.space/api/orders';
 
+type TArgs = {
+  ingredients: string[];
+  token: string;
+}
+
 export const createOrderRequest = createAsyncThunk(
   'order/createOrderRequest',
-  async (order) => {
+  async ({ ingredients, token }: TArgs) => {
     const response = await fetch(orderURL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify({ ingredients }),
     });
     if (response.ok) {
       const data = await response.json();

@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuid } from 'uuid';
+import { TIngredient } from '../../types';
+
+type TConstructorSliceState = {
+  main: (TIngredient & { id: string })[],
+  bun: TIngredient | null,
+  counts: Record<string, number>,
+}
 
 const constructorSlice = createSlice({
   name: 'builder',
@@ -7,18 +14,20 @@ const constructorSlice = createSlice({
     main: [],
     bun: null,
     counts: {},
-  },
+  } as TConstructorSliceState,
   reducers: {
     addIngredient: (state, action) => {
       if (action.payload.type !== 'bun') {
-        const newIngredient = {
-          id: uuid(),
-          ...action.payload,
-        };
-        state.counts[action.payload._id] = state.counts[action.payload._id] ? state.counts[action.payload._id] + 1 : 1
-        state.main.push(newIngredient);
+        if (state.bun) {
+          const newIngredient = {
+            id: uuid(),
+            ...action.payload,
+          };
+          state.counts[action.payload._id] = state.counts[action.payload._id] ? state.counts[action.payload._id] + 1 : 1
+          state.main.push(newIngredient);
+        }
       } else {
-        if (state.bun) state.counts[state.bun._id] = null;
+        if (state.bun) state.counts[state.bun._id] = 0;
         state.bun = action.payload;
         state.counts[action.payload._id] = 2;
       }
@@ -27,11 +36,13 @@ const constructorSlice = createSlice({
       state.counts[state.main[action.payload]._id] =
         state.counts[state.main[action.payload]._id] > 1
         ? state.counts[state.main[action.payload]._id] - 1
-        : null;
+        : 0;
       state.main = state.main.filter((_, index) => index !== action.payload);
     },
     removeBun: state => {
+     if (state.bun) {
       delete state.counts[state.bun._id];
+     }
       state.bun = null;
     },
     moveIngredient: (state, action) => {

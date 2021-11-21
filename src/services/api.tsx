@@ -11,24 +11,24 @@ type TResetPasswordBody = {
   token: string;
 }
 
-type TLoginBody = {
+export type TLoginBody = {
   password: string;
   email: string;
 }
 
-type TRegisterBody = {
+export type TRegisterBody = {
   password: string;
   email: string;
   name: string;
 }
 
-type TProfileBody = {
+export type TProfileBody = {
   password?: string;
   email?: string;
   name?: string;
 }
 
-type TProfileArgs = {
+export type TProfileArgs = {
   token?: string;
   body?: TProfileBody;
 }

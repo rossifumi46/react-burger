@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
 import IngredientCard from "../ingredient-card";
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/store";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('');
-  const { ingredients } = useSelector((store: any) => store.ingredients);
+  const { ingredients } = useSelector((store) => store.ingredients);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -48,7 +48,6 @@ const BurgerIngredients = () => {
             .map((item: any) => (
               <IngredientCard
                 ingredient={item}
-                // onClick={handleOpen(item)}
                 key={item._id}
               />
             ))}

@@ -1,7 +1,7 @@
 import { Location } from 'history';
 
 export type TIngredient = {
-  _id: number;
+  _id: string;
   name: string;
   price: number;
   image: string;
@@ -28,6 +28,7 @@ export type TParams = {
 
 export type TLocationState = {
   isActive?: boolean;
-  background?: Location;
+  ingredient?: Location;
   from?: Location;
+  order?: Location;
 }

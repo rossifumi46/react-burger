@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../api';
+import api, { TLoginBody, TProfileArgs, TRegisterBody } from '../api';
 
 export const loginRequest = createAsyncThunk(
   'auth/loginRequest',
-  async (body) => {
+  async (body: TLoginBody) => {
     const data = await api.login(body);
     if (data === 'error') throw new Error();
     localStorage.setItem("accessToken", data.accessToken.split("Bearer ")[1]);
@@ -14,7 +14,7 @@ export const loginRequest = createAsyncThunk(
 
 export const registerRequest = createAsyncThunk(
   'auth/registerRequest',
-  async (body) => {
+  async (body: TRegisterBody) => {
     const data = await api.register(body);
     if (data === 'error') throw new Error();
     return data;
@@ -23,7 +23,7 @@ export const registerRequest = createAsyncThunk(
 
 export const userRequest = createAsyncThunk(
   'auth/userRequest',
-  async (token) => {
+  async (token: string) => {
     const response = await api.getProfile(token);
     if (!response.success) throw new Error();
     return response.user;
@@ -32,7 +32,7 @@ export const userRequest = createAsyncThunk(
 
 export const updateProfileRequest = createAsyncThunk(
   'auth/updateProfileRequest',
-  async ({ token, body }) => {
+  async ({ token, body }: TProfileArgs) => {
     const response = await api.updateProfile({ token, body });
     if (!response.success) throw new Error();
     return response.user;
@@ -50,7 +50,34 @@ export const logoutRequest = createAsyncThunk(
   }
 );
 
-const initialState = {
+export type TUser = {
+  email: string;
+  name: string;
+}
+
+type TAuthSliceState = {
+  loginRequestStart: boolean,
+  loginRequestFailed: boolean,
+
+  registerRequestStart: boolean,
+  registerRequestFailed: boolean,
+
+  userRequestStart: boolean,
+  userRequestFailed: boolean,
+
+  updateProfileRequestStart: boolean,
+  updateProfileRequestFailed: boolean,
+
+  logoutRequestStart: boolean,
+  logoutRequestFailed: boolean,
+
+  accessToken: string,
+  refreshToken: string,
+
+  user: TUser | null,
+}
+
+const initialState: TAuthSliceState = {
   loginRequestStart: false,
   loginRequestFailed: false,
 

@@ -3,18 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./components/app";
 import reportWebVitals from "./reportWebVitals";
-import { configureStore } from "@reduxjs/toolkit";
+
 // import logger from 'redux-logger'
 import { Provider } from "react-redux";
-import reducer from './services/rootReducer.js';
+import { store } from "./services/store";
 
-const store = configureStore({
-  reducer,
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-  devTools: process.env.NODE_ENV !== "production",
-  // preloadedState,
-  // enhancers: [customEnhancer],
-});
 
 ReactDOM.render(
   <React.StrictMode>

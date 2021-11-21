@@ -4,15 +4,15 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { registerRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory } from "react-router";
+import { useDispatch, useSelector } from "../../../services/store";
 
 function RegisterPage() {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((store: any) => store.auth);
+  const { accessToken } = useSelector((store) => store.auth);
   const history = useHistory();
 
   const handleSubmit = (e: FormEvent) => {

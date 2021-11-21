@@ -8,12 +8,12 @@ import styles from "./styles.module.css";
 import OrderDetails from "../order-details";
 import Modal from "../modal";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import Main from "../main";
 import { useHistory } from "react-router";
 import { addIngredient, removeBun } from "../../services/slices/constructorSlice";
 import { createOrderRequest } from "../../services/slices/orderSlice";
 import { TIngredient } from "../../types";
+import { useDispatch, useSelector } from "../../services/store";
 
 const add = (accumulator: number, a: TIngredient) => accumulator + a.price;
 
@@ -21,10 +21,10 @@ const BurgerConstructor = () => {
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { main, bun } = useSelector((store: any) => store.builder);
-  const { user } = useSelector((store: any) => store.auth);
+  const { main, bun } = useSelector((store) => store.builder);
+  const { user, accessToken } = useSelector((store) => store.auth);
   const { orderDetails, orderRequestFailed, orderRequestStart } = useSelector(
-    (store: any) => store.order
+    (store) => store.order
   );
 
   const [, dropTarget] = useDrop({
@@ -35,7 +35,7 @@ const BurgerConstructor = () => {
   });
 
   const totalPrice = useMemo(
-    () => main.reduce(add, 0) + (2 * bun?.price || 0),
+    () => main.reduce(add, 0) + (2 * ((bun && bun.price) || 0)),
     [bun, main]
   );
 
@@ -45,10 +45,10 @@ const BurgerConstructor = () => {
     if (!user) {
       history.replace('/login');
     } else {
-      let order: number[] = main.map((ingredient: TIngredient) => ingredient._id);
+      let order: string[] = main.map((ingredient: TIngredient) => ingredient._id);
       if (bun) order = [...order, bun._id, bun._id];
       // @ts-ignore
-      await dispatch(createOrderRequest({ ingredients: order }));
+      await dispatch(createOrderRequest({ ingredients: order, token: accessToken }));
       setOpen(true);
     }
   };
