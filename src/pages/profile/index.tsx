@@ -39,7 +39,6 @@ function ProfilePage() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
     dispatch(updateProfileRequest({ token: accessToken, body: state }))
   }
 

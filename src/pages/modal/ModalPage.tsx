@@ -5,8 +5,8 @@ import { useSelector } from "../../services/store";
 import { TParams } from "../../types";
 
 function ModalPage() {
-  let history = useHistory();
-  let { id } = useParams<TParams>();
+  const history = useHistory();
+  const { id } = useParams<TParams>();
   const { ingredients } = useSelector((store) => store.ingredients);
   const ingredient = ingredients.find(({ _id }: { _id: string }) => _id === id)
   if (!ingredient) return null;

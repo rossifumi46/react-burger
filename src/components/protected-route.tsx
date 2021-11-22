@@ -19,7 +19,6 @@ export const ProtectedRoute: React.FC<TProps> = ({ children, ...rest }) => {
     const token = localStorage.getItem('accessToken');
     if (!user && token) {
       dispatch(setTokenAction(token));
-      // @ts-ignore
       await dispatch(userRequest(token))
     }
     setUserLoaded(true);

@@ -47,7 +47,6 @@ const BurgerConstructor = () => {
     } else {
       let order: string[] = main.map((ingredient: TIngredient) => ingredient._id);
       if (bun) order = [...order, bun._id, bun._id];
-      // @ts-ignore
       await dispatch(createOrderRequest({ ingredients: order, token: accessToken }));
       setOpen(true);
     }

@@ -24,7 +24,6 @@ function LoginPage() {
       email: { value: string };
     };
     dispatch(
-      // @ts-ignore
       loginRequest({
         email: target.email.value,
         password: target.password.value,

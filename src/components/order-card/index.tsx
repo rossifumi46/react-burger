@@ -60,7 +60,7 @@ export function OrderCard({ order, type }: TProps) {
         {type === 'history' && <div className="mt-2"><span className="text text_type_main-small">{statuses[order.status]}</span></div>}
         <div className={`${styles.footer} mt-6`}>
           <div className={styles.previews}>
-            {orderIngredients.map(image => <Icon image={image || ''} />)}
+            {orderIngredients.map((image, index) => <Icon key={index} image={image || ''} />)}
           </div>
           <span className="text text_type_digits-default">{price}<CurrencyIcon type="primary"/></span>
         </div>

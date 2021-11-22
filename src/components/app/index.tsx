@@ -9,7 +9,6 @@ import RegisterPage from "../../pages/auth/register";
 import BurgerConstructorPage from "../../pages/burger-constructor";
 import IngredientPage from "../../pages/ingredient";
 import { fetchIngredients } from "../../services/slices/ingredientsSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useLocation } from "react-router";
 import ModalPage from "../../pages/modal/ModalPage";
 import NotFound404 from "../../pages/not-found-404";
@@ -19,6 +18,7 @@ import { FeedPage } from "../../pages/feed";
 import { OrderHistoryPage } from "../../pages/order-history";
 import { OrderInfoPage } from "../../pages/order-info";
 import ModalOrderPage from "../../pages/modal-order";
+import { useDispatch, useSelector } from "../../services/store";
 
 function ModalSwitch() {
   const location = useLocation<TLocationState>();
@@ -98,7 +98,7 @@ function ModalSwitch() {
 function App() {
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector((store: any) => store.ingredients);
+  const { ingredients } = useSelector(store => store.ingredients);
 
   useEffect(() => {
     dispatch(fetchIngredients());

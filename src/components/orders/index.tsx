@@ -10,7 +10,7 @@ type TProps = {
 export function Orders({ orders, type }: TProps) {
   return (
     <div className={`${styles.orders} pr-2`}>
-      {orders.map(order => <OrderCard order={order} type={type} />)}
+      {orders.map(order => <OrderCard key={order.number} order={order} type={type} />)}
     </div>
   )
 }
