@@ -22,11 +22,11 @@ export function FeedInfo({ orders, total, totalToday }: TProps) {
       <div className={styles.orders}>
         <div className="mr-9">
           <h3 className="text text_type_main-medium mb-4">Готовы:</h3>
-          <div className={styles.grid}>{done.map(order => <span className="text text_type_digits-default success">{order.number}</span>)}</div>
+          <div className={styles.grid}>{done.map(order => <span className="text text_type_digits-default success" key={order.number}>{order.number}</span>)}</div>
         </div>
         <div>
           <h3 className="text text_type_main-medium mb-6">В работе:</h3>
-          <div className={styles.grid}>{pending.map(order => <span className="text text_type_digits-default">{order.number}</span>)}</div>
+          <div className={styles.grid}>{pending.map(order => <span className="text text_type_digits-default" key={order.number}>{order.number}</span>)}</div>
         </div>
       </div>
       <div>

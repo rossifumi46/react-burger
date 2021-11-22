@@ -41,7 +41,7 @@ export function OrderInfo({ order }: TProps) {
       <h3 className="text text_type_main-medium mt-15">Состав:</h3>
       <div className={`${styles.ingredients} mt-6 pr-6`}>
         {orderIngredients.map(ingredient => (
-          <div className={`${styles.row} mb-4`}>
+          <div className={`${styles.row} mb-4`} key={ingredient._id} >
             <div className={styles.flex}>
               <Icon image={ingredient.image_mobile || ''} />
               <span className="text text_type_main-small ml-4">{ingredient.name}</span>
