@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -14,21 +14,19 @@ function RegisterPage() {
   const dispatch = useDispatch();
   const { accessToken } = useSelector((store) => store.auth);
   const history = useHistory();
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      name: { value: string };
-      password: { value: string };
-      email: { value: string };
-    };
     dispatch(
-      // @ts-ignore
-      registerRequest({
-        name: target.name.value,
-        email: target.email.value,
-        password: target.password.value,
-      })
+      registerRequest({ ...state })
     );
   };
 
@@ -52,18 +50,16 @@ function RegisterPage() {
       <main className={styles.auth}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Регистрация</h1>
-          <div className="mt-6">
-            {/* @ts-ignore */} 
-            <Input type="text" name="name" placeholder="Имя" />
+          <div className="mt-6"> 
+            <Input type="text" name="name" placeholder="Имя" value={state.name} onChange={handleChange} />
           </div>
           <div className="mt-6">
-            {/* @ts-ignore */} 
-            <Input type="email" name="email" placeholder="Email" />
+            <Input type="email" name="email" placeholder="Email" value={state.email} onChange={handleChange} />
           </div>
-          <div className="mt-6">
-            {/* @ts-ignore */} 
+          <div className="mt-6"> 
             <PasswordInput
               name="password"
+              value={state.password} onChange={handleChange}
             />
           </div>
           <div className="mt-6">
