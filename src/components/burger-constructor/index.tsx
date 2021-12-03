@@ -53,7 +53,7 @@ const BurgerConstructor = () => {
   };
 
   return (
-    <section className={`${styles.constructor} pt-25 pl-4`} ref={dropTarget}>
+    <section className={`constructor pt-25 pl-4`} ref={dropTarget}>
       {bun || main.length > 0 ? (
         <>
           {bun && (
