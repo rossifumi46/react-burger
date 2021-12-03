@@ -1,0 +1,52 @@
+.card {
+  background: #2F2F37;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.header, .footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feed {
+  width: 584px;
+}
+
+.history {
+  width: 844px;
+}
+
+.preview {
+  position: relative;
+  margin-left: -16px;
+}
+
+.preview:first-of-type {
+  margin-left: 0;
+}
+
+.preview::before {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(#801AB2, #4C4CFF);
+  content: '';
+}
+
+.preview > img {
+  top: 2px;
+  left: 2px;
+  position: absolute;
+  background: #131316;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.previews {
+  display: flex;
+}

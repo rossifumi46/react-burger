@@ -4,10 +4,10 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
 import { TIngredient } from "../../types";
+import { useSelector } from "../../services/store";
 
 type TProps = {
   ingredient: TIngredient;
@@ -15,7 +15,7 @@ type TProps = {
 
 const IngredientCard: React.FC<TProps> = ({ ingredient }) => {
   const location = useLocation();
-  const { counts } = useSelector((store: any) => store.builder);
+  const { counts } = useSelector((store) => store.builder);
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -35,11 +35,11 @@ const IngredientCard: React.FC<TProps> = ({ ingredient }) => {
         to={{
           pathname: `/ingredients/${ingredient._id}`,
           // This is the trick! This link sets
-          // the `background` in location state.
-          state: { background: location },
+          // the `ingredient` in location state.
+          state: { ingredient: location },
         }}
       >
-        {counts[ingredient._id] && (
+        {counts[ingredient._id] > 0 && (
           <Counter count={counts[ingredient._id]} size="default" />
         )}
         <img

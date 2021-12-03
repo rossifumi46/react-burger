@@ -2,32 +2,34 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { loginRequest } from "../../../services/slices/authSlice";
 import styles from "../styles.module.css";
 import { Redirect, useHistory} from "react-router";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { TLocationState } from "../../../types";
+import { useDispatch, useSelector } from "../../../services/store";
 
 function LoginPage() {
   const dispatch = useDispatch();
   const { accessToken } = useSelector(
-    (store: any) => store.auth
+    (store) => store.auth
   );
   const history = useHistory<TLocationState>();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      password: { value: string };
-      email: { value: string };
-    };
     dispatch(
-      // @ts-ignore
       loginRequest({
-        email: target.email.value,
-        password: target.password.value,
+        ...state
       })
     );
   };
@@ -50,12 +52,10 @@ function LoginPage() {
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Вход</h1>
           <div className="mt-6">
-            {/* @ts-ignore */} 
-            <Input type="email" name="email" placeholder="Email" />
+            <Input type="email" name="email" placeholder="Email" value={state.email} onChange={handleChange} />
           </div>
           <div className="mt-6">
-            {/* @ts-ignore */} 
-            <Input type="password" name="password" placeholder="Пароль" />
+            <Input type="password" name="password" placeholder="Пароль" value={state.password} onChange={handleChange} />
           </div>
           <div className="mt-6">
             <Button type="primary" size="medium">

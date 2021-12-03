@@ -7,7 +7,7 @@ import ModalOverlay from "../modal-overlay";
 const modalRoot = document.getElementById("root") as HTMLElement;;
 
 type TProps = {
-  header: string;
+  header?: string;
   onClose: () => void;
 }
 

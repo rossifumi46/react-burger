@@ -1,13 +1,13 @@
 import { useHistory, useParams } from "react-router";
-import { useSelector } from "react-redux";
 import IngredientDetails from "../../components/ingredient-details";
 import Modal from "../../components/modal";
+import { useSelector } from "../../services/store";
 import { TParams } from "../../types";
 
 function ModalPage() {
-  let history = useHistory();
-  let { id } = useParams<TParams>();
-  const { ingredients } = useSelector((store: any) => store.ingredients);
+  const history = useHistory();
+  const { id } = useParams<TParams>();
+  const { ingredients } = useSelector((store) => store.ingredients);
   const ingredient = ingredients.find(({ _id }: { _id: string }) => _id === id)
   if (!ingredient) return null;
 

@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./styles.module.css";
 import IngredientCard from "../ingredient-card";
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/store";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('');
-  const { ingredients } = useSelector((store: any) => store.ingredients);
+  const { ingredients } = useSelector((store) => store.ingredients);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -44,19 +44,18 @@ const BurgerIngredients = () => {
       <div className={`${styles.list}`} ref={ref}>
         <h3 className="text text_type_main-medium mt-10" ref={e => refs.current[0] = e}>Булки</h3>
         <div className={`${styles.grid} mt-6 ml-4 mr-4`}>
-          {ingredients?.filter((item: any) => item.type === "bun")
-            .map((item: any) => (
+          {ingredients?.filter(item => item.type === "bun")
+            .map(item => (
               <IngredientCard
                 ingredient={item}
-                // onClick={handleOpen(item)}
                 key={item._id}
               />
             ))}
         </div>
         <h3 className="text text_type_main-medium mt-10" ref={e => refs.current[1] = e}>Соусы</h3>
         <div className={`${styles.grid} mt-6 ml-4 mr-4`}>
-          {ingredients?.filter((item: any) => item.type === "sauce")
-            .map((item: any) => (
+          {ingredients?.filter(item => item.type === "sauce")
+            .map(item => (
               <IngredientCard
                 ingredient={item}
                 key={item._id}
@@ -65,8 +64,8 @@ const BurgerIngredients = () => {
         </div>
         <h3 className="text text_type_main-medium mt-10" ref={e => refs.current[2] = e}>Начинка</h3>
         <div className={`${styles.grid} mt-6 ml-4 mr-4`}>
-          {ingredients?.filter((item: any) => item.type === "main")
-            .map((item: any) => (
+          {ingredients?.filter(item => item.type === "main")
+            .map(item => (
               <IngredientCard
                 ingredient={item}
                 key={item._id}

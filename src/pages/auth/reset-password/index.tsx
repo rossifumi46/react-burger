@@ -1,5 +1,5 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormEvent, useEffect } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../services/api";
 import styles from '../styles.module.css';
@@ -9,6 +9,14 @@ import { TLocationState } from "../../../types";
 function ResetPasswordPage() {
   const history = useHistory<TLocationState>(); 
   const isActive = history.location.state && history.location.state.isActive;
+  const [state, setState] = useState({
+    password: "",
+    code: '',
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
   useEffect(() => {
     if (!isActive) {
@@ -20,12 +28,8 @@ function ResetPasswordPage() {
 
   async function handleSubmit(e: FormEvent) {
     try {
-      const target = e.target as typeof e.target & {
-        code: { value: string };
-        password: { value: string };
-      };
       e.preventDefault();
-      await api.resetPassword({ password: target.password.value, token: target.code.value });
+      await api.resetPassword({ password: state.password, token: state.code });
     } catch (error) {
       console.log(error);
     }
@@ -36,10 +40,8 @@ function ResetPasswordPage() {
       <main className={styles.auth}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <h1 className="text text_type_main-medium primary">Восстановление пароля</h1>
-          {/* @ts-ignore */} 
-          <div className="mt-6"><Input type="password" name="password" placeholder="Введите новый пароль"/></div>
-          {/* @ts-ignore */} 
-          <div className="mt-6"><Input type="text" name="code" placeholder="Введите код из письма"/></div>
+          <div className="mt-6"><Input type="password" name="password" placeholder="Введите новый пароль" value={state.password} onChange={handleChange} /></div>
+          <div className="mt-6"><Input type="text" name="code" placeholder="Введите код из письма" value={state.code} onChange={handleChange} /></div>
           <div className="mt-6"><Button>Сохранить</Button></div>
           <span className="text text_type_main-default secondary mt-20">
             Вспомнили пароль? <Link to='/login'>Войти</Link>

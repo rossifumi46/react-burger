@@ -1,0 +1,19 @@
+.footer {
+  display: flex;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.ingredients {
+  max-height: 400px;
+  overflow-y: scroll;
+}

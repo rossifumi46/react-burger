@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { TIngredient } from '../../types';
 
 const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -15,13 +16,19 @@ export const fetchIngredients = createAsyncThunk(
   }
 )
 
+type TIngredientsSliceState = {
+  request: boolean;
+  failed: boolean;
+  ingredients: TIngredient[];
+}
+
 const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState: {
     request: false,
     failed: false,
     ingredients: [],
-  },
+  } as TIngredientsSliceState,
   reducers: {},
   extraReducers(builder) {
     builder

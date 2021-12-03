@@ -7,6 +7,7 @@ import { logoutRequest } from '../../services/slices/authSlice';
 
 const tips: Record<string, string> = {
   profile: 'В этом разделе вы можете изменить свои персональные данные',
+  'order-history': 'В этом разделе вы можете просмотреть свою историю заказов',
 }
 
 type TProps = {
