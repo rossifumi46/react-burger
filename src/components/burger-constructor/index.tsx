@@ -4,6 +4,7 @@ import {
   ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { v4 as uuid } from 'uuid';
 import styles from "./styles.module.css";
 import OrderDetails from "../order-details";
 import Modal from "../modal";
@@ -30,7 +31,7 @@ const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(ingredient) {
-      dispatch(addIngredient(ingredient));
+      dispatch(addIngredient({ ...(ingredient as TIngredient), id: uuid()}));
     },
   });
 
@@ -53,7 +54,7 @@ const BurgerConstructor = () => {
   };
 
   return (
-    <section className={`${styles.constructor} pt-25 pl-4`} ref={dropTarget}>
+    <section className={`constructor pt-25 pl-4`} ref={dropTarget}>
       {bun || main.length > 0 ? (
         <>
           {bun && (
