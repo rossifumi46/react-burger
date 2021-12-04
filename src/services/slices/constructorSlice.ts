@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuid } from 'uuid';
 import { TIngredient } from '../../types';
 
 type TConstructorSliceState = {
@@ -19,11 +18,8 @@ const constructorSlice = createSlice({
     addIngredient: (state, action) => {
       if (action.payload.type !== 'bun') {
         if (state.bun) {
-          const newIngredient = {
-            id: uuid(),
-            ...action.payload,
-          };
-          state.counts[action.payload._id] = state.counts[action.payload._id] ? state.counts[action.payload._id] + 1 : 1
+          const newIngredient = action.payload;
+          state.counts[newIngredient._id] = state.counts[newIngredient._id] ? state.counts[newIngredient._id] + 1 : 1
           state.main.push(newIngredient);
         }
       } else {

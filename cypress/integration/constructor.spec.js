@@ -1,30 +1,42 @@
-describe('products management works correctly', function() {
+describe('burger constructor', function() {
   before(function() {
     cy.visit('http://localhost:3000/login');
-    cy.get('[name="email"]').type('rossifumi.gp@gmail.com');
+    cy.get('[name="email"]').type('rossifumi9@yandex.ru');
+    cy.get('[name="password"]').type('Daurstyled46');
+    cy.get('button').click();
   });
 
-    it('should add and subtract products count', function() {
-    // cy.get('[class^=product_product__]').first().as('product');
-    // cy.get('@product').find('[class^=amount-button_button]').first().as('minusButton');
-    // cy.get('@product').find('[class^=amount-button_button]').last().as('plusButton');
-    // cy.get('@product').find('[class^=product_amount__]').as('productCount');
+  it('open ingredient details', function() {
+    cy.contains('Краторная булка N-200i').click()
+    cy.contains('Детали ингредиента');
+    cy.get('[class^=styles_modal]').as('details');
+    cy.get('@details').contains('Краторная булка N-200i');
+    cy.get('@details').contains('420');
+    cy.get('@details').contains('80');
+    cy.get('@details').contains('24');
+    cy.get('@details').contains('53');
+    cy.get('@details').find('[class^=styles_close]').click();
+  })
 
-    // cy.get('@productCount').should('contain', '1');
-
-    // cy.get('@plusButton').click();
-    // cy.get('@productCount').should('contain', '2');
-
-    // cy.get('@plusButton').click();
-    // cy.get('@productCount').should('contain', '3');
-
-    // cy.get('@minusButton').click();
-    // cy.get('@productCount').should('contain', '2');
-
-    // cy.get('@minusButton').click();
-    // cy.get('@productCount').should('contain', '1');
-    // cy.contains('Краторная булка N-200i').trigger('dragstart');
-    // cy.get('.constructor').trigger('drop').as('box');
-    // cy.get('@box').contains('Краторная булка N-200i').should('exist');
+  it('add bun', function() {
+    cy.contains('Краторная булка N-200i').trigger('dragstart').as('bun');
+    cy.get('.constructor').trigger('drop').as('box');
+    cy.get('@box').should('exist');
+    cy.get('@bun').find('[class^=counter]').should('contain', '2');
+    cy.get('@box').contains('2510');
   });
+
+  it('add ingredient', function() {
+    cy.contains('Соус фирменный Space Sauce').trigger('dragstart').as('ingredient');
+    cy.get('.constructor').trigger('drop').as('box');
+    cy.get('@box').should('exist');
+    cy.get('@ingredient').find('[class^=counter]').should('contain', '1');
+    cy.get('@box').contains('2590');
+  });
+
+  it('make order', function() {
+    cy.contains('Оформить заказ').click();
+    cy.get('[class^=styles_modal]').as('modal');
+    cy.get('@modal').contains('идентификатор заказа');
+  })
 }); 
