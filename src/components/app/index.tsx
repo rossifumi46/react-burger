@@ -38,7 +38,7 @@ function ModalSwitch() {
     <>
       <AppHeader />
       <Switch location={ingredient || order|| location}>
-        <Route path="" exact>
+        <Route path="/" exact>
           <BurgerConstructorPage />
         </Route>
         <Route path="/login" exact>
